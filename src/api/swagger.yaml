@@ -1,0 +1,184 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: http://localhost:9000/v1
+info:
+  description: This is a Dog Rescue Center
+  version: 1.0.1
+  title: DRC API document
+  contact:
+    email: tdbao1@cmcglobal.vn
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: Auth
+    description: Authentication
+  - name: Breed
+    description: Breed
+
+paths:
+  /auth/sign-in:
+    post:
+      security: []
+      tags:
+        - Auth
+      description: |
+        User Login by Email and Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCredentials"
+        description: email and password
+      responses:
+        "200":
+          description: login successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserCredentialResponse"
+        "400":
+          description: invalid email or password format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: incorrect email or password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+                
+  /auth/sign-up:
+    post:
+      security: []
+      tags: 
+        - Auth
+      description:
+        User register account to access the website to use full features of website
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserSignUpRequest"
+      responses:
+        "200":
+          description: sign up success, your email will receive a link active account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnounceResponse"
+        "400":
+          description: bad request, all field that it's invalid, email already.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UserCredentials:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: baotrandinh100@gmail.com
+        password:
+          type: string
+          example: hello123@
+
+    UserCredentialResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            email:
+              type: string
+            name:
+              type: string
+            avatar:
+              type: string
+              
+    UserSignUpRequest:
+      type: object
+      required:
+        - email
+        - password
+        - name
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        avatar:
+          type: string
+
+    ErrorResponse:
+      description: Error responses are sent when an error (e.g. unauthorized, bad request) occurred.
+      type: object
+      required:
+        - error
+      properties:
+        errors:
+          type: object
+          properties:
+            message: 
+              type: string
+          description: Error object
+        status:
+          type: integer
+          format: int64
+        data:
+          description: Show detail any data that the backend wanna return to more about details
+          type: object
+  
+    AnnounceResponse:
+      description: The response send all apis that it return message success
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int64
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+        
+    
