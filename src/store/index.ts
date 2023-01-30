@@ -1,17 +1,22 @@
 import { AnyAction, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authenticationSlice from "./authentication/slice";
+import storage from 'redux-persist/lib/storage'
+import { persistReducer, persistStore } from 'redux-persist';
 
 
 export const store = configureStore({
-  reducer: {
-    authentication: authenticationSlice
+  reducer: { 
+    authentication: persistReducer({key: 'authentication', storage}, authenticationSlice)
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+  devTools: process.env.NODE_ENV !== 'production'
 });
+
+export const persistor = persistStore(store)
 
 export type Store = typeof store;
 // Infer the `RootState` and `AppDispatch` types from the store itself
