@@ -7,3 +7,8 @@ export interface AuthenticationSlice {
 export interface JWTPayload {
   exp: number;
 }
+
+export interface UploadPayload {
+  status: string,
+  url: string
+}

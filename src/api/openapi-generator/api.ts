@@ -35,23 +35,16 @@ export interface AnnounceResponse {
     'status'?: number;
     /**
      * 
-     * @type {AnnounceResponseData}
+     * @type {string}
      * @memberof AnnounceResponse
      */
-    'data'?: AnnounceResponseData;
-}
-/**
- * 
- * @export
- * @interface AnnounceResponseData
- */
-export interface AnnounceResponseData {
+    'message'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof AnnounceResponseData
+     * @type {object}
+     * @memberof AnnounceResponse
      */
-    'message'?: string;
+    'data'?: object;
 }
 /**
  * Error responses are sent when an error (e.g. unauthorized, bad request) occurred.

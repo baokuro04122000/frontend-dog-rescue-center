@@ -2,7 +2,8 @@
   "common":{
     "email":"Email",
     "email_placeholder":"Enter your email",
-    "button":"Button"
+    "button":"Button",
+    "upload":"Upload"
   },
   "login":{
     "login":"Login",
@@ -20,6 +21,10 @@
     "email_required":"Email is required",
     "email_invalid":"Invalid email format",
     "password_required":"Password is required",
-    "password_invalid":"Password must contain at least 8 characters, including letters, numbers and special characters."
+    "password_invalid":"Password must contain at least 8 characters, including letters, numbers and special characters.",
+    "confirm_password_required":"Password confirmation is required",
+    "confirm_password_invalid":"Passwords must match",
+    "image_size_invalid":"File size must be less than 2MB",
+    "image_format_invalid":"File type is invalid"
   }
 }

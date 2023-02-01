@@ -12,7 +12,6 @@ interface Props {
 
 const UnauthRoute: FC<Props> = () => {
   const isAuth = useAppSelector(selectIsAuth);
-  console.log('here', isAuth)
   if (!isAuth) return <Outlet />;
   return <Navigate to={DASHBOARD_PATH} />;
 };

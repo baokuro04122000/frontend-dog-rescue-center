@@ -6,6 +6,7 @@ import {
   DASHBOARD_PATH,
   MANAGE_BREED_HOME_PATH,
   LOGIN_SUBPATH,
+  SIGNUP_SUBPATH,
   MANAGE_CREATE_BREED_PATH
 } from "../constants/routes";
 
@@ -15,6 +16,7 @@ import Breed from '../pages/Breed'
 import Layout from '../layout'
 import CreateBreed from '../pages/CreateBreed'
 import Login from "../pages/Login";
+import SignUp from '../pages/SignUp';
 import NotFound from "../pages/NotFound";
 import UnauthRoute from "./UnauthRoute";
 import AuthRoute from "./AuthRoute";
@@ -27,6 +29,10 @@ const unauthRoutes: RouteConfig = {
     {
       path:LOGIN_SUBPATH,
       element: <Login/>
+    },
+    {
+      path: SIGNUP_SUBPATH,
+      element: <SignUp/>
     }
   ]
 };
