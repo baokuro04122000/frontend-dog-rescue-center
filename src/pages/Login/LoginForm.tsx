@@ -9,6 +9,7 @@ import { useAppDispatch } from "../../store";
 import { actionLogin } from "../../store/authentication/action";
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 import {
   SIGNUP_PATH
 } from '../../constants/routes'
@@ -27,6 +28,7 @@ const LoginForm = () => {
   
   const [error, setError] = useState("");
   const dispatch = useAppDispatch();
+  const location = useLocation()
   
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -55,6 +57,9 @@ const LoginForm = () => {
     [dispatch]
   );
   
+  const handleClose = () => {
+    location.state.message = ''
+  }
   return (
     <div className={styles["form-wrapper"]}>
       <h1 style={{ textAlign: "center" }} className={styles["title-form"]}>{t('login.login')}</h1>
@@ -64,6 +69,8 @@ const LoginForm = () => {
         message={<span className={styles["custom-alert-error"]}>{error && error}</span>} 
         className={styles["custom-alert-style"]}
         />
+        {location.state.message ? <Alert message={location.state.message} type="success" closable afterClose={handleClose} /> : <></>}
+        
         {/* {error && <Alert message={error} type="error" />} */}
       </div>
       <Formik

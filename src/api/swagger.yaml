@@ -175,10 +175,7 @@ components:
         status:
           type: integer
           format: int64
+        message:
+          type: string
         data:
           type: object
-          properties:
-            message:
-              type: string
-        
-    

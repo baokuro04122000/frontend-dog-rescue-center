@@ -1,10 +1,12 @@
 import { AxiosError } from 'axios';
 import { AppThunk } from '..';
 import {
-  login
+  login,
+  register
 } from '../../api/authetication'
 import {
-  UserCredentials
+  UserCredentials,
+  UserSignUpRequest
 } from '../../api/openapi-generator'
 import { setAuthUser } from './slice';
 export const actionLogin = (
@@ -16,8 +18,21 @@ export const actionLogin = (
       await dispatch(setAuthUser(data));
     } catch (error) {
       const err = error as AxiosError
-      console.log(err)
       throw err.response?.data ? err.response?.data : err.message;
     }
   };
 };
+
+export const actionRegister = (
+  user: UserSignUpRequest
+): AppThunk<Promise<string>> => {
+  return async () => {
+    try {
+      const { data } = await register(user)
+      return data.message ? data.message : 'Internal server error'
+    } catch (error) {
+      const err = error as AxiosError
+      throw err.response?.data ? err.response?.data : err.message;
+    }
+  }
+}
