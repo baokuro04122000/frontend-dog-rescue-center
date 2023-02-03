@@ -58,7 +58,7 @@ const LoginForm = () => {
   );
   
   const handleClose = () => {
-    location.state.message = ''
+    window.history.replaceState({}, document.title)
   }
   return (
     <div className={styles["form-wrapper"]}>
@@ -69,7 +69,7 @@ const LoginForm = () => {
         message={<span className={styles["custom-alert-error"]}>{error && error}</span>} 
         className={styles["custom-alert-style"]}
         />
-        {location.state.message ? <Alert message={location.state.message} type="success" closable afterClose={handleClose} /> : <></>}
+        {location.state?.message ? <Alert message={location.state.message} type="success" closable afterClose={handleClose} /> : <></>}
         
         {/* {error && <Alert message={error} type="error" />} */}
       </div>
