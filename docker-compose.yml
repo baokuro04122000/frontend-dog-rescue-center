@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  admin:
+    image: 'frontend-dog-rescue:1.0.0'
+    container_name: frontend
+    ports:
+      - 3000:80
+    build:
+      context: .
+    networks:
+      - msf
+networks:
+  msf:
+    driver: bridge
