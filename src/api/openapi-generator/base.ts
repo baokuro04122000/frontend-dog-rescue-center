@@ -18,7 +18,7 @@ import { Configuration } from "./configuration";
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 
-export const BASE_PATH = "http://ec2-54-255-180-132.ap-southeast-1.compute.amazonaws.com:8080/v1".replace(/\/+$/, "");
+export const BASE_PATH = "http://54.255.180.132:8080/v1".replace(/\/+$/, "");
 
 /**
  *

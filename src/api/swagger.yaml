@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: http://ec2-54-255-180-132.ap-southeast-1.compute.amazonaws.com:8080/v1
+    url: http://54.255.180.132:8080/v1
 info:
   description: This is a Dog Rescue Center
   version: 1.0.1
@@ -69,7 +69,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserSignUpRequest"
+              $ref: "#/components/schemas/UserSignUp"
       responses:
         "200":
           description: sign up success, your email will receive a link active account
@@ -89,7 +89,69 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-          
+                
+  /auth/email-reset-password:
+    post:
+      security: []
+      tags:
+        - Auth
+      description:
+        Confirm email of user to supply a link reset password through the email of user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailConfirmResetPassword"
+      responses:
+        "200":
+          description: send notification and send link reset password through the email of user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnounceResponse"
+        "400":
+          description: bad request, all field that it's invalid, email already.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/reset:
+    post:
+      security: []
+      tags:
+        - Auth
+      description:
+        Reset password through token and user id that it got from the url of user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPassword"
+      responses:
+        "200":
+          description: send notification reset password is success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnnounceResponse"
+        "400":
+          description: bad request, all field that it's invalid, token or user id not exist and expire.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
 security:
   - bearerAuth: []
@@ -133,7 +195,7 @@ components:
             avatar:
               type: string
               
-    UserSignUpRequest:
+    UserSignUp:
       type: object
       required:
         - email
@@ -147,6 +209,28 @@ components:
         name:
           type: string
         avatar:
+          type: string
+    
+    EmailConfirmResetPassword:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+    
+    ResetPassword:
+      type: object
+      required:
+        - token
+        - userId
+        - password
+      properties:
+        token:
+          type: string
+        userId:
+          type: number
+        password:
           type: string
 
     ErrorResponse:
@@ -179,3 +263,5 @@ components:
           type: string
         data:
           type: object
+          
+    

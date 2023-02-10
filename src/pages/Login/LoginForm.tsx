@@ -1,7 +1,7 @@
 import { Formik, FormikHelpers } from "formik";
 import { Form, Input, SubmitButton } from "formik-antd";
 import {Button, Row, Col, Alert} from 'antd'
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import styles from "./login.module.css";
 import * as Yup from "yup";
@@ -11,7 +11,8 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import {
-  SIGNUP_PATH
+  SIGNUP_PATH,
+  FORGOT_PASSWORD_PATH
 } from '../../constants/routes'
 import {
   ErrorResponse
@@ -25,11 +26,19 @@ type FormValues = typeof initialValues;
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  
-  const [error, setError] = useState("");
-  const dispatch = useAppDispatch();
   const location = useLocation()
   
+  const [error, setError] = useState("");
+  const [notify, setNotify] = useState(location?.state?.message)
+  
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setNotify("")
+    }, 10000)
+  }, [])
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .required(`${t('validation.email_required')}`)
@@ -58,7 +67,7 @@ const LoginForm = () => {
   );
   
   const handleClose = () => {
-    window.history.replaceState({}, document.title)
+    setNotify("")
   }
   return (
     <div className={styles["form-wrapper"]}>
@@ -69,9 +78,8 @@ const LoginForm = () => {
         message={<span className={styles["custom-alert-error"]}>{error && error}</span>} 
         className={styles["custom-alert-style"]}
         />
-        {location.state?.message ? <Alert message={location.state.message} type="success" closable afterClose={handleClose} /> : <></>}
+        {notify ? <Alert message={notify} type="success" closable afterClose={handleClose} /> : <></>} 
         
-        {/* {error && <Alert message={error} type="error" />} */}
       </div>
       <Formik
         initialValues={initialValues}
@@ -79,7 +87,6 @@ const LoginForm = () => {
         validationSchema={validationSchema}
       >
         {() => (
-          
           <Form layout="vertical"
           >
             <Form.Item name="email" label={<span style={{fontWeight:"bold"}}>{t('common.email')}</span>} >
@@ -112,9 +119,18 @@ const LoginForm = () => {
               </Col>
               <Col span={12} offset={4} style={{textAlign: "right"}}>
                 <Button type="link" htmlType="button" className={styles["custom-link-style"]}  >
-                  <Link to={SIGNUP_PATH} style={{textDecoration:"underline"}}>{t('signUp.signUp')}</Link>
+                  <Link to={FORGOT_PASSWORD_PATH} style={{textDecoration:"underline"}}>{t('forgotPassword.forgot_password')}</Link>
                 </Button>
               </Col>
+            </Row>
+            <Row style={{
+              justifyContent:"center", 
+              alignItems:"center",
+              padding: "0px 0px 9px;" 
+            }}>
+                <Button type="link" htmlType="button" className={styles["custom-link-style"]}  >
+                  <Link to={SIGNUP_PATH} style={{textDecoration:"underline"}}>{t('signUp.create_your_account')}</Link>
+                </Button>
             </Row>
           </Form> 
         )}
