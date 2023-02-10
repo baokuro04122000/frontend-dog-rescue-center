@@ -47,6 +47,19 @@ export interface AnnounceResponse {
     'data'?: object;
 }
 /**
+ * 
+ * @export
+ * @interface EmailConfirmResetPassword
+ */
+export interface EmailConfirmResetPassword {
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailConfirmResetPassword
+     */
+    'email': string;
+}
+/**
  * Error responses are sent when an error (e.g. unauthorized, bad request) occurred.
  * @export
  * @interface ErrorResponse
@@ -83,6 +96,31 @@ export interface ErrorResponseErrors {
      * @memberof ErrorResponseErrors
      */
     'message'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ResetPassword
+ */
+export interface ResetPassword {
+    /**
+     * 
+     * @type {string}
+     * @memberof ResetPassword
+     */
+    'token': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResetPassword
+     */
+    'userId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResetPassword
+     */
+    'password': string;
 }
 /**
  * 
@@ -162,31 +200,31 @@ export interface UserCredentials {
 /**
  * 
  * @export
- * @interface UserSignUpRequest
+ * @interface UserSignUp
  */
-export interface UserSignUpRequest {
+export interface UserSignUp {
     /**
      * 
      * @type {string}
-     * @memberof UserSignUpRequest
+     * @memberof UserSignUp
      */
     'email': string;
     /**
      * 
      * @type {string}
-     * @memberof UserSignUpRequest
+     * @memberof UserSignUp
      */
     'password': string;
     /**
      * 
      * @type {string}
-     * @memberof UserSignUpRequest
+     * @memberof UserSignUp
      */
     'name': string;
     /**
      * 
      * @type {string}
-     * @memberof UserSignUpRequest
+     * @memberof UserSignUp
      */
     'avatar'?: string;
 }
@@ -197,6 +235,72 @@ export interface UserSignUpRequest {
  */
 export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Confirm email of user to supply a link reset password through the email of user
+         * @param {EmailConfirmResetPassword} [emailConfirmResetPassword] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authEmailResetPasswordPost: async (emailConfirmResetPassword?: EmailConfirmResetPassword, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/email-reset-password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(emailConfirmResetPassword, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Reset password through token and user id that it got from the url of user
+         * @param {ResetPassword} [resetPassword] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authResetPost: async (resetPassword?: ResetPassword, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/reset`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(resetPassword, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * User Login by Email and Password 
          * @param {UserCredentials} [userCredentials] email and password
@@ -232,11 +336,11 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * User register account to access the website to use full features of website
-         * @param {UserSignUpRequest} [userSignUpRequest] 
+         * @param {UserSignUp} [userSignUp] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authSignUpPost: async (userSignUpRequest?: UserSignUpRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        authSignUpPost: async (userSignUp?: UserSignUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/auth/sign-up`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -256,7 +360,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(userSignUpRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(userSignUp, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -274,6 +378,26 @@ export const AuthApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration)
     return {
         /**
+         * Confirm email of user to supply a link reset password through the email of user
+         * @param {EmailConfirmResetPassword} [emailConfirmResetPassword] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authEmailResetPasswordPost(emailConfirmResetPassword?: EmailConfirmResetPassword, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnounceResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authEmailResetPasswordPost(emailConfirmResetPassword, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Reset password through token and user id that it got from the url of user
+         * @param {ResetPassword} [resetPassword] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authResetPost(resetPassword?: ResetPassword, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnounceResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authResetPost(resetPassword, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * User Login by Email and Password 
          * @param {UserCredentials} [userCredentials] email and password
          * @param {*} [options] Override http request option.
@@ -285,12 +409,12 @@ export const AuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * User register account to access the website to use full features of website
-         * @param {UserSignUpRequest} [userSignUpRequest] 
+         * @param {UserSignUp} [userSignUp] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authSignUpPost(userSignUpRequest?: UserSignUpRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnounceResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.authSignUpPost(userSignUpRequest, options);
+        async authSignUpPost(userSignUp?: UserSignUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnnounceResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authSignUpPost(userSignUp, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -304,6 +428,24 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = AuthApiFp(configuration)
     return {
         /**
+         * Confirm email of user to supply a link reset password through the email of user
+         * @param {EmailConfirmResetPassword} [emailConfirmResetPassword] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authEmailResetPasswordPost(emailConfirmResetPassword?: EmailConfirmResetPassword, options?: any): AxiosPromise<AnnounceResponse> {
+            return localVarFp.authEmailResetPasswordPost(emailConfirmResetPassword, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Reset password through token and user id that it got from the url of user
+         * @param {ResetPassword} [resetPassword] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authResetPost(resetPassword?: ResetPassword, options?: any): AxiosPromise<AnnounceResponse> {
+            return localVarFp.authResetPost(resetPassword, options).then((request) => request(axios, basePath));
+        },
+        /**
          * User Login by Email and Password 
          * @param {UserCredentials} [userCredentials] email and password
          * @param {*} [options] Override http request option.
@@ -314,12 +456,12 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * User register account to access the website to use full features of website
-         * @param {UserSignUpRequest} [userSignUpRequest] 
+         * @param {UserSignUp} [userSignUp] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authSignUpPost(userSignUpRequest?: UserSignUpRequest, options?: any): AxiosPromise<AnnounceResponse> {
-            return localVarFp.authSignUpPost(userSignUpRequest, options).then((request) => request(axios, basePath));
+        authSignUpPost(userSignUp?: UserSignUp, options?: any): AxiosPromise<AnnounceResponse> {
+            return localVarFp.authSignUpPost(userSignUp, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -331,6 +473,28 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class AuthApi extends BaseAPI {
+    /**
+     * Confirm email of user to supply a link reset password through the email of user
+     * @param {EmailConfirmResetPassword} [emailConfirmResetPassword] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public authEmailResetPasswordPost(emailConfirmResetPassword?: EmailConfirmResetPassword, options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authEmailResetPasswordPost(emailConfirmResetPassword, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Reset password through token and user id that it got from the url of user
+     * @param {ResetPassword} [resetPassword] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public authResetPost(resetPassword?: ResetPassword, options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authResetPost(resetPassword, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * User Login by Email and Password 
      * @param {UserCredentials} [userCredentials] email and password
@@ -344,13 +508,13 @@ export class AuthApi extends BaseAPI {
 
     /**
      * User register account to access the website to use full features of website
-     * @param {UserSignUpRequest} [userSignUpRequest] 
+     * @param {UserSignUp} [userSignUp] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
      */
-    public authSignUpPost(userSignUpRequest?: UserSignUpRequest, options?: AxiosRequestConfig) {
-        return AuthApiFp(this.configuration).authSignUpPost(userSignUpRequest, options).then((request) => request(this.axios, this.basePath));
+    public authSignUpPost(userSignUp?: UserSignUp, options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authSignUpPost(userSignUp, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

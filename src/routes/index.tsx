@@ -7,7 +7,9 @@ import {
   MANAGE_BREED_HOME_PATH,
   LOGIN_SUBPATH,
   SIGNUP_SUBPATH,
-  MANAGE_CREATE_BREED_PATH
+  MANAGE_CREATE_BREED_PATH,
+  EMAIL_RESET_PASSWORD_SUBPATH,
+  RESET_PASSWORD_SUBPATH
 } from "../constants/routes";
 
 import { RouteConfig } from "../interfaces/routes";
@@ -17,9 +19,12 @@ import Layout from '../layout'
 import CreateBreed from '../pages/CreateBreed'
 import Login from "../pages/Login";
 import SignUp from '../pages/SignUp';
+import EmailResetPassword from '../pages/EmailResetPassword';
+import ResetPassword from '../pages/ResetPassword';
 import NotFound from "../pages/NotFound";
 import UnauthRoute from "./UnauthRoute";
 import AuthRoute from "./AuthRoute";
+
 
 const unauthRoutes: RouteConfig = {
   path: AUTH_PATH,
@@ -33,6 +38,14 @@ const unauthRoutes: RouteConfig = {
     {
       path: SIGNUP_SUBPATH,
       element: <SignUp/>
+    },
+    {
+      path: EMAIL_RESET_PASSWORD_SUBPATH,
+      element: <EmailResetPassword/>
+    },
+    {
+      path: RESET_PASSWORD_SUBPATH,
+      element: <ResetPassword />
     }
   ]
 };

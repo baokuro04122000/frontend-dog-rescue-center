@@ -4,7 +4,7 @@ import { RootState, Store } from "../store";
 
 let store: Store;
 
-export const BASE_URL = process.env.REACT_APP_BASE_URL;
+export const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://54.255.180.132:8080/v1';
 
 const baseClient = axios.create({
   baseURL: BASE_URL,

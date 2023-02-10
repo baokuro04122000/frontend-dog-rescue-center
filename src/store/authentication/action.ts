@@ -2,11 +2,15 @@ import { AxiosError } from 'axios';
 import { AppThunk } from '..';
 import {
   login,
-  register
+  register,
+  emailForgotPassword,
+  resetPassword
 } from '../../api/authetication'
 import {
+  EmailConfirmResetPassword,
   UserCredentials,
-  UserSignUpRequest
+  UserSignUp,
+  ResetPassword
 } from '../../api/openapi-generator'
 import { setAuthUser } from './slice';
 export const actionLogin = (
@@ -24,12 +28,40 @@ export const actionLogin = (
 };
 
 export const actionRegister = (
-  user: UserSignUpRequest
+  user: UserSignUp
 ): AppThunk<Promise<string>> => {
   return async () => {
     try {
       const { data } = await register(user)
       return data.message ? data.message : 'Internal server error'
+    } catch (error) {
+      const err = error as AxiosError
+      throw err.response?.data ? err.response?.data : err.message;
+    }
+  }
+}
+
+export const actionEmailForgotPassword = (
+  email: EmailConfirmResetPassword
+): AppThunk<Promise<string>> => {
+  return async () => {
+    try {
+      const {data} = await emailForgotPassword(email)
+      return data.message ? data.message : ''
+    } catch (error) {
+      const err = error as AxiosError
+      throw err.response?.data ? err.response?.data : err.message;
+    }
+  }
+}
+
+export const actionResetPassword = (
+  reset: ResetPassword
+): AppThunk<Promise<string>> => {
+  return async () => {
+    try {
+      const {data} = await resetPassword(reset)
+      return data.message ? data.message : ''
     } catch (error) {
       const err = error as AxiosError
       throw err.response?.data ? err.response?.data : err.message;

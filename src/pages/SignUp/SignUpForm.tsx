@@ -67,7 +67,6 @@ const SignUpForm = () => {
   
   });
   useEffect(() => {
-    console.log("here")
     if(err){
       api.error({
         message: err,

@@ -3,19 +3,30 @@
     "email":"Email",
     "email_placeholder":"Enter your email",
     "button":"Button",
-    "upload":"Upload"
+    "upload":"Upload",
+    "send":"Send",
+    "submit":"Submit"
   },
   "login":{
     "login":"Login",
     "password":"Password",
     "password_placeholder":"Enter your password"
   },
+  "forgotPassword":{
+    "email_instruction":"An email will be sent to the address specified with a link to reset your password",
+    "login_path":"Return to the Login Form",
+    "new_password":"New Password",
+    "title_form_reset_password":"Reset Account Password",
+    "invalid_url":"The url is invalid",
+    "forgot_password":"Forgot Password"
+  },
   "signUp":{
     "signUp":"Sign Up",
     "username":"Username",
     "username_placeholder":"Enter your username",
     "confirm_password":"Confirm Password",
-    "confirm_password_placeholder":"Enter the confirm password"
+    "confirm_password_placeholder":"Enter the confirm password",
+    "create_your_account":"Create Your Account ->"
   },
   "validation":{
     "email_required":"Email is required",
