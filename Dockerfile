@@ -5,10 +5,11 @@ WORKDIR /usr/src/frontend
 COPY package.json ./
 
 
-RUN npm install npm@9.4.1 -g
-RUN npm config set legacy-peer-deps true
-RUN npm install typescript -g
+RUN npm install npm@9.4.2 -g
+RUN npm config set strict-ssl false
+RUN npm config set registry https://registry.npmjs.org/
 RUN npm install
+RUN npm install -g typescript
 
 RUN npm run build
 

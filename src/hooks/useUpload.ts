@@ -39,7 +39,7 @@ export const useUpload = (t: TFunction<"translation", undefined, "translation">)
     fmData.append("file", file);
     try {
       const {data} = await axios.post(
-        process.env.SERVER_UPLOAD || 'http://localhost:7000/upload-img',
+        process.env.SERVER_UPLOAD || 'https://aksnginx.tk/upload-img',
         fmData,
         config
       );
